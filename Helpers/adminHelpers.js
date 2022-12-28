@@ -8,7 +8,7 @@ const { resolve } = require("path")
 module.exports = {
     doLogin: (adminData) => {
         return new Promise(async (resolve, reject) => {
-            let admin = await db.get().collection(collections.ADMIN_COLLECTION).findOne({ _id: adminData.username })
+            let admin = await db.get().collection(collections.ADMIN_COLLECTION).findOne({ username: adminData.username })
             if (admin) {
                 bcrypt.compare(adminData.password, admin.password).then((response) => {
 
@@ -34,13 +34,13 @@ module.exports = {
     },
     doSignup: async (adminData) => {
         admin = {
-            _id: adminData.username,
+            username: adminData.username,
             email: adminData.email,
             password: await bcrypt.hash(adminData.password, 10)
 
         }
         return new Promise(async (resolve,reject) => {
-            let adminCheck = await db.get().collection(collections.ADMIN_COLLECTION).findOne({ _id: adminData.username })
+            let adminCheck = await db.get().collection(collections.ADMIN_COLLECTION).findOne({ username: adminData.username })
             
 
             if(adminCheck){
@@ -67,32 +67,37 @@ module.exports = {
     },
     deleteUser: (userId)=>{
         return new Promise (async (resolve,reject)=>{
-            await db.get().collection(collections.USER_COLLECTION).deleteOne({_id:userId});
+            await db.get().collection(collections.USER_COLLECTION).deleteOne({_id:objectId(userId)});
             resolve();
         })
     },
     getUserDetails: (userId)=>{
         return new Promise(async(resolve,reject)=>{
-            let user  = await db.get().collection(collections.USER_COLLECTION).findOne({_id:userId})
+            let user  = await db.get().collection(collections.USER_COLLECTION).findOne({_id:objectId(userId)})
             resolve(user)
         })
     },
-    editUserDetails: (userId, emailId)=>{
+    editUserDetails: (userId, data)=>{
         return new Promise(async (resolve,reject)=>{
-            await db.get().collection(collections.USER_COLLECTION).updateOne({_id:userId},{$set:{email:emailId}});
+            await db.get().collection(collections.USER_COLLECTION).updateOne({_id:objectId(userId)},
+                {$set:{
+                email:data.email,
+                username:data.username,
+
+            }});
             resolve();
         })
     },
 
     createUser: async (userData) => {
         user = {
-            _id: userData.username,
+            username: userData.username,
             email: userData.email,
             password: await bcrypt.hash(userData.password, 10)
 
         }
         return new Promise(async (resolve,reject) => {
-            let userCheck = await db.get().collection(collections.USER_COLLECTION).findOne({ _id: userData.username })
+            let userCheck = await db.get().collection(collections.USER_COLLECTION).findOne({ username: userData.username })
             
 
             if(userCheck){
@@ -106,6 +111,18 @@ module.exports = {
             }
 
           
+        })
+    },
+    checkUserExist: (username)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.USER_COLLECTION).findOne({username:username}).then((result)=>{
+                if(result){
+                    resolve({status:false})
+                }
+                else{
+                    resolve({status:true})
+                }
+            })
         })
     }
     

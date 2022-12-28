@@ -16,7 +16,7 @@
     {{#each users}}
     <tr>
       <th scope="row">{{ @index}}</th>
-      <td>{{this._id}}</td>
+      <td>{{this.username}}</td>
       <td>{{this.email}}</td>
       <td>
         <a href="/admin/edit-user/{{this._id}}" class="btn btn-info">Edit</a>

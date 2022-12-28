@@ -29,7 +29,7 @@ router.get('/',checkLogin, function(req, res, next) {
 });
 
 router.get('/home',verifyLogin,(req,res)=>{
-  res.render('Users/user-home',{name:req.session.user._id})
+  res.render('Users/user-home',{name:req.session.user.username})
 })
 
 router.post('/',(req,res)=>{

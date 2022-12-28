@@ -7,10 +7,13 @@ const { rejects } = require("assert")
 const { resolveObjectURL } = require("buffer")
 
 
+
+
+
 module.exports = {
     doLogin: (userData) => {
         return new Promise(async (resolve, reject) => {
-            let user = await db.get().collection(collections.USER_COLLECTION).findOne({ _id: userData.username })
+            let user = await db.get().collection(collections.USER_COLLECTION).findOne({ username: userData.username })
             if (user) {
                 bcrypt.compare(userData.password, user.password).then((response) => {
 
@@ -36,13 +39,13 @@ module.exports = {
     },
     doSignup: async (userData) => {
         user = {
-            _id: userData.username,
+            username: userData.username,
             email: userData.email,
             password: await bcrypt.hash(userData.password, 10)
 
         }
         return new Promise(async (resolve,reject) => {
-            let userCheck = await db.get().collection(collections.USER_COLLECTION).findOne({ _id: userData.username })
+            let userCheck = await db.get().collection(collections.USER_COLLECTION).findOne({ username: userData.username })
             
 
             if(userCheck){
