@@ -50,8 +50,7 @@ router.post("/", (req, res) => {
 });
 
 router.get("/signup", checkLogin, (req, res) => {
-  res.render("./Admins/admin-signup",{message: req.session.adminMessages});
-  
+  res.render("./Admins/admin-signup", { message: req.session.adminMessages });
 });
 
 router.post("/signup", (req, res) => {
@@ -61,7 +60,7 @@ router.post("/signup", (req, res) => {
       res.redirect("/admin/home");
     } else {
       req.session.adminMessages = response.message;
-      res.redirect('/admin/signup');
+      res.redirect("/admin/signup");
     }
   });
 });
@@ -80,7 +79,7 @@ router.get("/delete-user/:id", verifyLogin, (req, res) => {
 router.get("/edit-user/:id", verifyLogin, (req, res) => {
   adminHelper.getUserDetails(req.params.id).then((user) => {
     previousId = user.username;
-    res.render("Admins/edit-user", { user });
+    res.render("Admins/edit-user", { user,name:req.session.admin.username });
   });
 });
 
@@ -108,7 +107,7 @@ router.post("/edit-user/:id", (req, res) => {
 });
 
 router.get("/create-user", verifyLogin, (req, res) => {
-  res.render("Admins/create-user");
+  res.render("Admins/create-user" ,{name:req.session.admin.username});
 });
 
 router.post("/create-user", (req, res) => {
@@ -119,6 +118,6 @@ router.post("/create-user", (req, res) => {
       res.render("Admins/create-user", { message: result.message });
     }
   });
-}); 
+});
 
 module.exports = router;
