@@ -119,6 +119,6 @@ router.post("/create-user", (req, res) => {
       res.render("Admins/create-user", { message: result.message });
     }
   });
-});
+}); 
 
 module.exports = router;
