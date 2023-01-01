@@ -21,7 +21,7 @@ app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'hbs');
 app.engine('hbs',hbs.engine({extname:'hbs',defaultLayout:'layout',layoutsDir:__dirname+'/views/Layout', 
 partialsDir:__dirname+'/views/Partials',handlebars: allowInsecurePrototypeAccess(Handlebars)}))
-app.use(session({secret:"Key",cookie:{maxAge:572728752872902590}}))
+app.use(session({secret:"Key",cookie:{maxAge:1*60*60*1000},resave:false,saveUninitialized:false}))
 
 app.use(logger('dev'));
 app.use(express.json());
