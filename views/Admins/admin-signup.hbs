@@ -1,19 +1,112 @@
-<form action="/admin/signup" method="post"> 
-      <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Username</label>
-    <input type="text" class="form-control" name="username" >
-    <div id="emailHelp" class="form-text">Find a unique username</div>
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputEmail1" class="form-label">Email address</label>
-    <input type="email" name="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp">
-    <div id="emailHelp" class="form-text">We'll never share your email with anyone else.</div>
-  </div>
-  <div class="mb-3">
-    <label for="exampleInputPassword1" class="form-label">Password</label>
-    <input type="password" class="form-control" id="exampleInputPassword1" name="password">
-  </div>
-   <div id="emailHelp" class="form-text text-danger">{{message}}</div>
-  <button type="submit" class="btn btn-primary">Submit</button>
+<section class="vh-100 d-flex justify-content-center align-items-center">
+  <div class="container-fluid h-custom">
+    <div class="row d-flex justify-content-center align-items-center h-100">
+      <div class="col-md-9 col-lg-6 col-xl-5">
+        <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-registration/draw1.webp" class="img-fluid"
+          alt="Sample image">
+      </div>
+      <div class="col-md-8 col-lg-6 col-xl-4 offset-xl-1">
+        <form action="/admin/signup" method="post" id="form" onsubmit="validateForm()">
+          <h4 class="text-center mb-3" style="font-family:Verdana, Geneva, Tahoma, sans-serif;">Admin Register</h4>
 
-</form>
+          <!-- Email input -->
+          <div class="form-outline mb-4">
+            <label class="form-label" for="form3Example3">Username</label>
+            <input type="text" id="username" name="username" class="form-control form-control"
+              placeholder="Eg:George" />
+            <div id="usernameError" style="display: none;" class="form-text text-danger">Username is required</div>
+            <div  style="display: inline;" class="form-text text-danger">{{message}}</div>
+          </div>
+
+
+
+          <div class="form-outline mb-4">
+            <label class="form-label" for="form3Example3">Email</label>
+            <input type="email" id="email" name="email" class="form-control form-control"
+              placeholder="example@123.com" />
+            <div id="emailError" style="display: none;" class="form-text text-danger">Email is required</div>
+          </div>
+
+          <!-- Password input -->
+          <div class="form-outline mb-3">
+            <label class="form-label" for="form3Example4">Password</label>
+            <input type="password" id="password" name="password" class="form-control form-control"
+              placeholder="************" />
+            <div id="passwordError" style="display: none;" class="form-text text-danger">Password is required</div>
+          </div>
+
+          <div class="form-outline mb-3">
+            <label class="form-label" for="form3Example4">Confirm Password</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" class="form-control form-control"
+              placeholder="************" />
+            <div id="confirmPasswordError" style="display: none;" class="form-text text-danger">Please confirm your
+              password</div>
+              <div id="passwordMatchError" style="display: none;" class="form-text text-danger mb-3">Passwords do not match</div>
+          </div>
+
+
+          <div class="text-center text-lg-start mt-4 pt-2">
+           
+            <button type="submit" class="btn btn-primary "
+              style="padding-left: 2.5rem; padding-right: 2.5rem;">Register</button>
+
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+
+
+
+</section>
+<script>
+  function validateForm() {
+
+    
+    const form = document.getElementById('form')
+    addEventListener('submit',(e)=>{
+      e.preventDefault()
+    })
+    let err ;
+    let username = document.getElementById('username').value;
+    let email = document.getElementById('email').value;
+    let password = document.getElementById('password').value;
+    let confirmPassword = document.getElementById('confirmPassword').value;
+    if (username == '') {
+
+      document.getElementById('usernameError').style.display = 'inline';
+      err = true;
+    }
+    if (email == '') {
+      err = true;
+      document.getElementById('emailError').style.display = 'inline';
+    }
+    if (password === '') {
+      err = true;
+      document.getElementById('passwordError').style.display = 'inline';
+
+    }
+    if (confirmPassword === "") {
+      err = true;
+      document.getElementById('confirmPasswordError').style.display = 'inline';
+
+    }
+    if(password != "" && confirmPassword != ""){
+
+      if (password != confirmPassword) {
+        err = true;
+        document.getElementById('passwordMatchError').style.display = 'inline';
+        
+      }
+    }
+    if (err === true) {
+      return false;
+    } else {
+      form.submit();
+      return true;
+    }
+
+  }
+</script>
