@@ -1,35 +1,79 @@
-<nav class="navbar navbar-light bg-light">
-  <span class="navbar-brand mb-0 h1">{{name}}</span>
-  <a href="/admin/signout" class="btn btn-primary me-auto">Signout </a>
-  <a href="/admin/create-user" class="btn btn-primary me-auto">Create a user </a>
-</nav>
-<table class="table" id="user-table">
-  <thead>
-    <tr>
-      <th scope="col">#</th>
-      <th scope="col">Username</th>
-      <th scope="col">Gmail</th>
-      <th>Options</th>
-    </tr>
-  </thead>
-  <tbody>
-    {{#each users}}
-    <tr>
-      <th scope="row">{{ @index}}</th>
-      <td>{{this.username}}</td>
-      <td>{{this.email}}</td>
-      <td>
-        <a href="/admin/edit-user/{{this._id}}" class="btn btn-info">Edit</a>
-        <a href="/admin/delete-user/{{this._id}}" class="btn btn-danger">Delete</a>
-      </td>
-      
-    </tr>
-    {{/each}}
-  
-  </tbody>
-</table>
-<script>
-    $(function(){
-        $('#user-table').DataTable()
-    })
-</script>
+ <section id="menu">
+        <div class="logo">
+            <h2>Admin Panel</h2>
+        </div>
+ 
+        <div class="items">
+            <li><ion-icon name="pie-chart-outline"></ion-icon><a href="#">Dashboard</a></li>
+            <li><ion-icon name="people-outline"></ion-icon><a href="#">Users</a></li>
+            <li><ion-icon name="settings-outline"></ion-icon><a href="#">Settings</a></li>
+          <li><ion-icon name="help-circle-outline"></ion-icon><a href="/admin/signout">Signout</a></li>
+           
+        </div>
+    </section>
+ 
+    <section id="interface">
+        <div class="navigation">
+            <div class="n1">
+                <div>
+                    <ion-icon id="menu-btn" name="menu-outline"></ion-icon>
+                </div>
+                <div class="search">
+                    <ion-icon name="search-outline"></ion-icon>
+                    <input type="text" placeholder="Search">
+                </div>
+            </div>
+            <div class="profile">
+                <ion-icon name="notifications-outline"></ion-icon>
+                <ion-icon name="person-outline"></ion-icon>
+                <h6>{{name}}</h6>
+            </div>
+        </div>
+ 
+        <h3 class="page_name">Dashboard</h3>
+ 
+        <div class="values">
+          
+            <div class="val-box">
+                <ion-icon name="add-circle-outline"></ion-icon>
+                <div>
+                    <h3><a href="/admin/create-user" class="fs-5 text-dark" style="text-decoration: none;">Add New User </a></h3>
+                </div>
+            </div>
+           
+         
+         
+        </div>
+ 
+        <div class="board">
+            <table width="100%">
+                <thead>
+                    <tr>
+                        <td>username</td>
+                        <td>email</td>
+                        <td>status</td>
+                        <td></td>
+                    </tr>
+                </thead>
+                <tbody>
+                 {{#each users}}
+                    <tr>
+                        <td class="people">
+                            <div class="people-de">
+                                <h5>{{this.username}}</h5>
+                            </div>
+                        </td>
+                        <td class="email">
+                            <h5>{{this.email}}</h5>
+                        </td>
+                        <td class="active"><p>Active</p></td>
+                        <td class="edit"><a href="/admin/edit-user/{{this._id}}" class="btn text-white btn-secondary">Edit</a> &nbsp;<a href="/admin/delete-user/{{this._id}}" class="btn btn-danger text-white">Delete</a></td>
+                    </tr>
+                    {{/each}}
+                  
+                
+                 
+                </tbody>
+            </table>
+        </div>
+    </section>
