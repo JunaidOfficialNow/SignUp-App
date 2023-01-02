@@ -15,7 +15,10 @@ const verifyLogin = function (req, res, next) {
 const checkLogin = function (req, res, next) {
   if (req.session.user) {
     res.redirect("/home");
-  } else {
+  }else if(req.session.admin){
+    res.redirect('/admin/home');
+  }
+   else {
     next();
   }
 };

@@ -1,4 +1,4 @@
-    <section id="menu">
+    <section id="menu" style="padding: 0;">
         <div class="logo">
             <h2>Admin Panel</h2>
         </div>
@@ -11,7 +11,7 @@
            
         </div>
     </section>
-    <section id="interface">
+    <section id="interface" style="padding: 0;">
         <div class="navigation">
             <div class="n1">
                 <div>
@@ -26,10 +26,10 @@
             </div>
         </div>
  
-        <h3 class="page_name " style="margin-top: 75px;">Add Users</h3>
+     
  
-        <div class="wrapper" style="height: 550px;">
-            <h2>Add user here</h2>
+        <div class="wrapper" style="height: 360px;margin-top:150px">
+            <h2>Edit user here</h2>
             <form onsubmit="validateForm()" action="/admin/edit-user/{{user._id}}" method="POST" id="form">
 
                 <input type="text" onchange="checkError()" placeholder="username" id="username" class="inputs" name="username" value="{{user.username}}">                

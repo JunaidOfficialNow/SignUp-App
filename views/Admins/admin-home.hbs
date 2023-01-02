@@ -1,4 +1,4 @@
- <section id="menu">
+ <section id="menu" style="padding:0">
         <div class="logo">
             <h2>Admin Panel</h2>
         </div>
@@ -12,15 +12,18 @@
         </div>
     </section>
  
-    <section id="interface">
-        <div class="navigation">
+    <section id="interface" style="padding:0">
+        <div class="navigation" style="z-index: 1;">
             <div class="n1">
                 <div>
                     <ion-icon id="menu-btn" name="menu-outline"></ion-icon>
                 </div>
                 <div class="search">
                     <ion-icon name="search-outline"></ion-icon>
-                    <input type="text" placeholder="Search">
+                    <form action="/admin/user-search/" method="get" id="search-form">
+
+                    <input type="text" placeholder="Search" name="searchData" onchange="searchUser()" style="margin-bottom: 0;">
+                    </form>
                 </div>
             </div>
             <div class="profile">
@@ -34,7 +37,7 @@
  
         <div class="values">
           
-            <div class="val-box">
+            <div class="val-box" style="margin-top:30px;">
                 <ion-icon name="add-circle-outline"></ion-icon>
                 <div>
                     <h3><a href="/admin/create-user" class="fs-5 text-dark" style="text-decoration: none;">Add New User </a></h3>
@@ -46,13 +49,13 @@
         </div>
  
         <div class="board">
-            <table width="100%">
+            <table width="100%" id="table">
                 <thead>
                     <tr>
                         <td>username</td>
                         <td>email</td>
                         <td>status</td>
-                        <td></td>
+                        <td>Options</td>
                     </tr>
                 </thead>
                 <tbody>
@@ -67,7 +70,8 @@
                             <h5>{{this.email}}</h5>
                         </td>
                         <td class="active"><p>Active</p></td>
-                        <td class="edit"><a href="/admin/edit-user/{{this._id}}" class="btn text-white btn-secondary">Edit</a> &nbsp;<a href="/admin/delete-user/{{this._id}}" class="btn btn-danger text-white">Delete</a></td>
+                        <td class="edit"><a href="/admin/edit-user/{{this._id}}" class="btn text-white btn-secondary">Edit</a> &nbsp;
+                        <a href="/admin/delete-user/{{this._id}}" onclick="return confirm('Are you sure you want to delete {{this.username}}')" class="btn btn-danger text-white">Delete</a></td>
                     </tr>
                     {{/each}}
                   
@@ -77,3 +81,8 @@
             </table>
         </div>
     </section>
+   <script>
+      function searchUser(){
+        document.getElementById('search-form').submit();
+      }
+   </script>

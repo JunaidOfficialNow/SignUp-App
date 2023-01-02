@@ -8,7 +8,7 @@ let previousId = "";
 const verifyLogin = function (req, res, next) {
   if (req.session.admin) {
     next();
-  } else {
+  } else  {
     res.redirect("/admin");
   }
 };
@@ -16,7 +16,10 @@ const verifyLogin = function (req, res, next) {
 const checkLogin = function (req, res, next) {
   if (req.session.admin) {
     res.redirect("/admin/home");
-  } else {
+  }else if(req.session.user){
+    res.redirect('/home');
+  }
+   else {
     next();
   }
 };
@@ -27,7 +30,13 @@ router.get("/", checkLogin, function (req, res, next) {
 });
 
 router.get("/home", verifyLogin, (req, res) => {
+
+  if(req.session.searchData){
+    res.render("Admins/admin-home",{name:req.session.admin.username,users: req.session.searchData});
+    req.session.searchData = null;
+  }
   adminHelper.getUsers().then((users) => {
+
     res.render("Admins/admin-home", {
       name: req.session.admin.username,
       users,
@@ -42,6 +51,7 @@ router.post("/", (req, res) => {
 
       res.redirect("/admin/home");
     } else if (response.admin === true) {
+      
       res.render("./Admins/admin-login", { error: "Invalid credentials" });
     } else {
       res.render("./Admins/admin-login", { error: "user does not exist" });
@@ -67,6 +77,7 @@ router.post("/signup", (req, res) => {
 
 router.get("/signout", (req, res) => {
   req.session.admin = null;
+  req.session.searchData = null;
   res.redirect("/admin");
 });
 
@@ -79,7 +90,7 @@ router.get("/delete-user/:id", verifyLogin, (req, res) => {
 router.get("/edit-user/:id", verifyLogin, (req, res) => {
   adminHelper.getUserDetails(req.params.id).then((user) => {
     previousId = user.username;
-    res.render("Admins/edit-user", { user,name:req.session.admin.username });
+    res.render("Admins/edit-user", { user, name: req.session.admin.username });
   });
 });
 
@@ -107,7 +118,7 @@ router.post("/edit-user/:id", (req, res) => {
 });
 
 router.get("/create-user", verifyLogin, (req, res) => {
-  res.render("Admins/create-user" ,{name:req.session.admin.username});
+  res.render("Admins/create-user", { name: req.session.admin.username });
 });
 
 router.post("/create-user", (req, res) => {
@@ -117,6 +128,13 @@ router.post("/create-user", (req, res) => {
     } else {
       res.render("Admins/create-user", { message: result.message });
     }
+  });
+});
+router.get("/user-search", (req, res) => {
+  console.log(req.query.searchData);
+  adminHelper.searchUser(req.query.searchData).then((users) => {
+    req.session.searchData = users;
+    res.redirect("/admin/home");
   });
 });
 

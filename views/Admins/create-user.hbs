@@ -1,4 +1,4 @@
-    <section id="menu">
+    <section id="menu" style="padding:0;">
         <div class="logo">
             <h2>Admin Panel</h2>
         </div>
@@ -11,7 +11,7 @@
            
         </div>
     </section>
-    <section id="interface">
+    <section id="interface" style="padding: 0;">
         <div class="navigation">
             <div class="n1">
                 <div>
@@ -25,10 +25,9 @@
                 <h6>{{name}}</h6>
             </div>
         </div>
+
  
-        <h3 class="page_name " style="margin-top: 75px;">Add Users</h3>
- 
-        <div class="wrapper" style="height: 550px;">
+        <div class="wrapper" style="height: 550px; margin-top:100px">
             <h2>Add user here</h2>
             <form onsubmit="validateForm()" action="/admin/create-user" method="POST" id="form">
 
@@ -54,7 +53,7 @@
     </section>
     <script>
     function checkError(){
-          console.log(47827598)
+
       document.getElementById('alreadyExist').style.display = 'none';
       document.getElementById('usernameError').style.display = 'none';
       document.getElementById('passwordMatchError').style.display = 'none';

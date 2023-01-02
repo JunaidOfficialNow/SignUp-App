@@ -124,6 +124,18 @@ module.exports = {
                 }
             })
         })
+    },
+    searchUser: (searchData)=>{
+        return new Promise((resolve,reject)=>{
+            db.get().collection(collections.USER_COLLECTION).find({$or:
+                [
+                    {username:{$regex:searchData}},
+                    {email:{$regex:searchData}}
+                ]
+            }).toArray().then((users)=>{
+               resolve(users);
+            })
+        })
     }
     
 

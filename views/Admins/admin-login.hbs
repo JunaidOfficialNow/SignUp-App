@@ -1,5 +1,5 @@
     <section class="vh-100 d-flex justify-content-center align-items-center">
-        <div class="container-fluid h-custom">
+        <div class="container-fluid h-custom " style="margin-left: 90px;">
           <div class="row d-flex justify-content-center align-items-center h-100">
             <div class="col-md-9 col-lg-6 col-xl-5">
               <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-login-form/draw2.webp"
@@ -13,28 +13,18 @@
                 <!-- Email input -->
                 <div class="form-outline mb-4">
                   <input type="text" id="form3Example3" name="username" required class="form-control form-control-lg fs-6"
-                    placeholder="Eg:George" />
+                    placeholder="Eg:George" onchange="checkError()"/>
                   <label class="form-label" for="form3Example3">Username</label>
                 </div>
       
                 <!-- Password input -->
                 <div class="form-outline mb-3">
                   <input type="password" name="password" required class="form-control form-control-lg fs-6"
-                    placeholder="************" />
+                    placeholder="************" onchange="checkError()" />
                   <label class="form-label" for="form3Example4">Password</label>
                 </div>
       
-                {{!-- <div class="d-flex justify-content-between align-items-center">
-                  <!-- Checkbox -->
-                  <div class="form-check mb-0">
-                    <input class="form-check-input me-2" type="checkbox" checked  name="session"/>
-                    <label class="form-check-label" for="form2Example3">
-                      Remember me
-                    </label>
-                  </div>
-              
-                </div> --}}
-      
+             <div  style="display:inline;" id="alreadyExist" class="form-text text-danger">{{error}}</div>
                 <div class="text-center text-lg-start mt-4 pt-2">
                   <button type="submit" class="btn btn-primary "
                     style="padding-left: 2.5rem; padding-right: 2.5rem;">Login</button>
@@ -51,5 +41,11 @@
       
 
       </section>
-    
+     <script>
+      function checkError(){
+        document.getElementById('alreadyExist').style.display = 'none';
+
+      }
+    </script>
+
 

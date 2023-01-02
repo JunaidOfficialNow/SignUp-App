@@ -13,9 +13,9 @@
           <div class="form-outline mb-4">
             <label class="form-label" for="form3Example3">Username</label>
             <input type="text" id="username" name="username" class="form-control form-control"
-              placeholder="Eg:George" />
-            <div id="usernameError" style="display: none;" class="form-text text-danger">Username is required</div>
-            <div  style="display: inline;" class="form-text text-danger">{{message}}</div>
+              placeholder="Eg:George" onchange="checkError()" />
+           
+            <div  style="display: inline;" id="alreadyExist" class="form-text text-danger">{{message}}</div>
           </div>
 
 
@@ -23,24 +23,21 @@
           <div class="form-outline mb-4">
             <label class="form-label" for="form3Example3">Email</label>
             <input type="email" id="email" name="email" class="form-control form-control"
-              placeholder="example@123.com" />
-            <div id="emailError" style="display: none;" class="form-text text-danger">Email is required</div>
-          </div>
+              placeholder="example@123.com" onchange="checkError()"/>
+       
 
           <!-- Password input -->
           <div class="form-outline mb-3">
             <label class="form-label" for="form3Example4">Password</label>
             <input type="password" id="password" name="password" class="form-control form-control"
-              placeholder="************" />
-            <div id="passwordError" style="display: none;" class="form-text text-danger">Password is required</div>
-          </div>
+              placeholder="************" onchange="checkError()" />
+        
 
           <div class="form-outline mb-3">
             <label class="form-label" for="form3Example4">Confirm Password</label>
             <input type="password" id="confirmPassword" name="confirmPassword" class="form-control form-control"
-              placeholder="************" />
-            <div id="confirmPasswordError" style="display: none;" class="form-text text-danger">Please confirm your
-              password</div>
+              placeholder="************" onchange="checkError()"/>
+               <div id="usernameError" style="display: none;" class="form-text text-danger">All fields are mandatory</div>
               <div id="passwordMatchError" style="display: none;" class="form-text text-danger mb-3">Passwords do not match</div>
           </div>
 
@@ -62,51 +59,50 @@
 
 </section>
 <script>
-  function validateForm() {
+  function checkError(){
 
+    document.getElementById('alreadyExist').style.display = 'none';
+    document.getElementById('usernameError').style.display = 'none';
+    document.getElementById('passwordMatchError').style.display = 'none';
     
-    const form = document.getElementById('form')
-    addEventListener('submit',(e)=>{
-      e.preventDefault()
-    })
-    let err ;
-    let username = document.getElementById('username').value;
-    let email = document.getElementById('email').value;
-    let password = document.getElementById('password').value;
-    let confirmPassword = document.getElementById('confirmPassword').value;
-    if (username == '') {
-
-      document.getElementById('usernameError').style.display = 'inline';
-      err = true;
-    }
-    if (email == '') {
-      err = true;
-      document.getElementById('emailError').style.display = 'inline';
-    }
-    if (password === '') {
-      err = true;
-      document.getElementById('passwordError').style.display = 'inline';
-
-    }
-    if (confirmPassword === "") {
-      err = true;
-      document.getElementById('confirmPasswordError').style.display = 'inline';
-
-    }
-    if(password != "" && confirmPassword != ""){
-
-      if (password != confirmPassword) {
-        err = true;
-        document.getElementById('passwordMatchError').style.display = 'inline';
-        
-      }
-    }
-    if (err === true) {
-      return false;
-    } else {
-      form.submit();
-      return true;
-    }
-
+ 
   }
+
+
+function validateForm() {
+
+
+  const form = document.getElementById('form')
+  addEventListener('submit',(e)=>{
+    e.preventDefault()
+  })
+  let err ;
+  let username = document.getElementById('username').value;
+  let email = document.getElementById('email').value;
+  let password = document.getElementById('password').value;
+  let confirmPassword = document.getElementById('confirmPassword').value;
+  if (username == '' || email == '' || password == '' || confirmPassword == '') {
+
+    document.getElementById('usernameError').style.display = 'inline';
+    err = true;
+  }
+
+  if(password != "" && confirmPassword != ""){
+
+    if (password != confirmPassword) {
+      err = true;
+      document.getElementById('password').value = '';
+      document.getElementById('confirmPassword').value = '';
+      document.getElementById('passwordMatchError').style.display = 'inline';
+      
+    }
+  }
+  if (err === true) {
+    return false;
+  } else {
+    form.submit();
+    return true;
+  }
+
+}
 </script>
