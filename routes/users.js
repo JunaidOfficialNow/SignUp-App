@@ -25,7 +25,8 @@ const checkLogin = function (req, res, next) {
 
 /* GET users listing. */
 router.get("/", checkLogin, function (req, res, next) {
-  res.render("./Users/user-login");
+  res.render("./Users/user-login" ,{error:req.session.userMessages});
+  req.session.userMessages = null;
 });
 
 router.get("/home", verifyLogin, (req, res) => {
@@ -35,25 +36,21 @@ router.get("/home", verifyLogin, (req, res) => {
 router.post("/", (req, res) => {
   userHelper.doLogin(req.body).then((response) => {
     if (response.status === true) {
-      if (req.body.session === "on") {
         req.session.user = response.userDetails;
-      } else {
-        req.session.cookie.maxAge = null;
-
-        req.session.user = response.userDetails;
-      }
-
-      res.redirect("/home");
+        res.redirect("/home");
     } else if (response.user === true) {
-      res.render("./Users/user-login", { error: "Invalid credentials" });
+      req.session.userMessages = 'Invalid credentials';
+       res.redirect('/')
     } else {
-      res.render("./Users/user-login", { error: "user does not exist" });
+      req.session.userMessages = 'user does not exist';
+      res.redirect('/');
     }
   });
 });
 
 router.get("/signup", checkLogin, (req, res) => {
   res.render("./Users/user-signup", { message: req.session.userMessages });
+  req.session.userMessages = null;
 });
 
 router.post("/signup", (req, res) => {

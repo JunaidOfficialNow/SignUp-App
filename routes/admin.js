@@ -26,7 +26,11 @@ const checkLogin = function (req, res, next) {
 
 /* GET home page. */
 router.get("/", checkLogin, function (req, res, next) {
-  res.render("Admins/admin-login");
+
+    res.render("Admins/admin-login",{error:req.session.adminErrors})
+    req.session.adminErrors = null;
+
+
 });
 
 router.get("/home", verifyLogin, (req, res) => {
@@ -51,16 +55,19 @@ router.post("/", (req, res) => {
 
       res.redirect("/admin/home");
     } else if (response.admin === true) {
-      
-      res.render("./Admins/admin-login", { error: "Invalid credentials" });
+      req.session.adminErrors = 'Invalid credentials';
+      res.redirect('/admin');
     } else {
-      res.render("./Admins/admin-login", { error: "user does not exist" });
+      req.session.adminErrors = 'user does not exist';
+      res.redirect('/admin');
     }
   });
 });
 
 router.get("/signup", checkLogin, (req, res) => {
   res.render("./Admins/admin-signup", { message: req.session.adminMessages });
+  req.session.adminErrors = null;
+
 });
 
 router.post("/signup", (req, res) => {
@@ -69,7 +76,7 @@ router.post("/signup", (req, res) => {
       req.session.admin = response.admin;
       res.redirect("/admin/home");
     } else {
-      req.session.adminMessages = response.message;
+      req.session.adminErrors = response.message;
       res.redirect("/admin/signup");
     }
   });
@@ -90,7 +97,8 @@ router.get("/delete-user/:id", verifyLogin, (req, res) => {
 router.get("/edit-user/:id", verifyLogin, (req, res) => {
   adminHelper.getUserDetails(req.params.id).then((user) => {
     previousId = user.username;
-    res.render("Admins/edit-user", { user, name: req.session.admin.username });
+    res.render("Admins/edit-user", { user, name: req.session.admin.username,error:req.session.adminErrors });
+    req.session.adminErrors = null;
   });
 });
 
@@ -103,10 +111,8 @@ router.post("/edit-user/:id", (req, res) => {
         });
       } else {
         adminHelper.getUserDetails(req.params.id).then((user) => {
-          res.render("Admins/edit-user", {
-            error: "username already in use",
-            user,
-          });
+          req.session.adminErrors = 'username already in use';
+           res.redirect('/admin/edit-user/'+req.params.id);
         });
       }
     });
@@ -118,7 +124,8 @@ router.post("/edit-user/:id", (req, res) => {
 });
 
 router.get("/create-user", verifyLogin, (req, res) => {
-  res.render("Admins/create-user", { name: req.session.admin.username });
+  res.render("Admins/create-user", { name: req.session.admin.username ,message:req.session.adminErrors});
+  req.session.adminErrors = null;
 });
 
 router.post("/create-user", (req, res) => {
@@ -126,7 +133,8 @@ router.post("/create-user", (req, res) => {
     if (result.status) {
       res.redirect("/admin/home");
     } else {
-      res.render("Admins/create-user", { message: result.message });
+      req.session.adminErrors = result.message;
+   res.redirect('/admin/create-user')
     }
   });
 });
